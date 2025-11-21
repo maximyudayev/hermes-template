@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 # TODO: replace `pkgname` and version number
 name = "pysio-hermes-pkgname"
-version = "0.0.1"
+dynamic = ["version"]
 requires-python = ">=3.7"
 authors = [
   { name="Maxim Yudayev", email="maxim.yudayev@gmail.com" },
@@ -35,6 +35,9 @@ classifiers = [
 dependencies = [
 
 ]
+
+[tool.setuptools.dynamic]
+version = {attr = "hermes.pkgname.__version__.__version__"}
 
 [project.urls]
 # TODO: update external links
