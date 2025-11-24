@@ -1,6 +1,6 @@
 ############
 #
-# Copyright (c) 2024 Maxim Yudayev and KU Leuven eMedia Lab
+# Copyright (c) 2024-2025 Maxim Yudayev and KU Leuven eMedia Lab
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -29,24 +29,23 @@ from hermes.base.stream import Stream
 
 
 class TemplateStream(Stream):
-  """A Stream structure to extend with user-specific modality data.
-  """
-  def __init__(self, 
-               sampling_rate_hz: int = 1,
-               **_) -> None:
-    super().__init__()
+    """A Stream structure to extend with user-specific modality data."""
 
-    # TODO: match to device key used when publishing data.
-    self._device_name = 'sensor-emulator'
+    def __init__(self, sampling_rate_hz: int = 1, **_) -> None:
+        super().__init__()
 
-    # TODO: add desired substreams.
-    self.add_stream(device_name=self._device_name,
-                    stream_name='toa',
-                    data_type='float32',
-                    sample_size=[1],
-                    sampling_rate_hz=sampling_rate_hz,
-                    is_measure_rate_hz=True)
+        # TODO: match to device key used when publishing data.
+        self._device_name = "sensor-emulator"
 
+        # TODO: add desired substreams.
+        self.add_stream(
+            device_name=self._device_name,
+            stream_name="toa",
+            data_type="float32",
+            sample_size=[1],
+            sampling_rate_hz=sampling_rate_hz,
+            is_measure_rate_hz=True,
+        )
 
-  def get_fps(self) -> dict[str, float | None]:
-    return {self._device_name: super()._get_fps(self._device_name, 'toa')}
+    def get_fps(self) -> dict[str, float | None]:
+        return {self._device_name: super()._get_fps(self._device_name, "toa")}
