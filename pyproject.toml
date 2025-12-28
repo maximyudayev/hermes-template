@@ -9,7 +9,7 @@ dynamic = ["version"]
 requires-python = ">=3.7"
 authors = [
   { name="Maxim Yudayev", email="maxim.yudayev@gmail.com" },
-  { name="e-Media Research Lab @ KU Leuven" },
+  { name="e-Media Research Lab @ KU Leuven", email="emedia@kuleuven.be" },
 ]
 # TODO: update the package description
 description = "A realtime physiological sensing and edge AI processing framework"
@@ -41,8 +41,8 @@ version = {attr = "hermes.pkgname.__version__.__version__"}
 
 [project.urls]
 # TODO: update external links
-Homepage = "https://maximyudayev.github.io/hermes"
-Documentation = "https://maximyudayev.github.io/hermes"
+Homepage = "https://yudayev.com/hermes"
+Documentation = "https://yudayev.com/hermes"
 Repository = "https://github.com/maximyudayev/hermes.git"
 Issues = "https://github.com/maximyudayev/hermes/issues"
 Changelog = "https://github.com/maximyudayev/hermes/blob/main/CHANGELOG.md"

@@ -17,7 +17,7 @@ pip install -e hermes-<pkg_name>
 ```
 
 ## Usage
-Using the device/algorithm follows the standard [configuration file specification](https://maximyudayev.github.io/hermes/) process of HERMES nodes.
+Using the device/algorithm follows the standard [configuration file specification](https://yudayev.com/hermes) process of HERMES nodes.
 
 ## Citation
 When using any parts of this repository outside of its intended use, please cite the parent project [HERMES](https://github.com/maximyudayev/hermes).
