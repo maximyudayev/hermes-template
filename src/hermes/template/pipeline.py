@@ -52,6 +52,7 @@ class TemplatePipeline(Pipeline):
         stream_out_spec: dict,
         stream_in_specs: list[dict],
         logging_spec: LoggingSpec,
+        is_async_generate: bool = False,
         port_pub: str = PORT_BACKEND,
         port_sub: str = PORT_FRONTEND,
         port_sync: str = PORT_SYNC_HOST,
@@ -66,6 +67,7 @@ class TemplatePipeline(Pipeline):
             stream_out_spec (dict): Mapping of corresponding Stream object parameters to user-defined configuration values.
             stream_in_specs (list[dict]): List of mappings of user-configured incoming modalities.
             logging_spec (LoggingSpec): Mapping of Storage object parameters to user-defined configuration values.
+            is_async_generate (bool, optional): Whether the Pipeline produces data asynchronously, in parallel to what is fed into it. Defaults to `False`.
             port_pub (str, optional): Local port to publish to for local master Broker to relay. Defaults to `PORT_BACKEND`.
             port_sub (str, optional): Local port to subscribe to for incoming relayed data from the local master Broker. Defaults to `PORT_FRONTEND`.
             port_sync (str, optional): Local port to listen to for local master Broker's startup coordination. Defaults to `PORT_SYNC_HOST`.
@@ -77,6 +79,7 @@ class TemplatePipeline(Pipeline):
             stream_out_spec=stream_out_spec,
             stream_in_specs=stream_in_specs,
             logging_spec=logging_spec,
+            is_async_generate=is_async_generate,
             port_pub=port_pub,
             port_sub=port_sub,
             port_sync=port_sync,
@@ -86,6 +89,9 @@ class TemplatePipeline(Pipeline):
     @classmethod
     def create_stream(cls, stream_spec: dict) -> TemplateStream:
         return TemplateStream(**stream_spec)
+
+    def _keep_samples(self) -> None:
+        pass
 
     def _process_data(self, topic: str, msg: dict) -> None:
         if self._is_continue_produce:
@@ -101,6 +107,9 @@ class TemplatePipeline(Pipeline):
             self._publish(tag, time_s=process_time_s, data=process_time_s)
         else:
             self._send_end_packet()
+
+    def _generate_data(self) -> None:
+        pass
 
     def _stop_new_data(self):
         # TODO: trigger the sensor's backend to stop generating new data.
