@@ -40,7 +40,7 @@ class TemplateStream(Stream):
         # TODO: add desired substreams.
         self.add_stream(
             device_name=self._device_name,
-            stream_name="toa",
+            stream_name="toa_s",
             data_type="float32",
             sample_size=[1],
             sampling_rate_hz=sampling_rate_hz,

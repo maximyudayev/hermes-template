@@ -11,7 +11,7 @@
       "cwd": "${workspaceFolder}",
       "program": "examples/main.py",
       "args": [
-        "--experiment", "project=Test", "type=Template", "trial=0",
+        "--experiment", "project=Template", "trial=0",
         "--config_file", "examples/template.yml",
         "--out_dir", "examples/data"
       ],

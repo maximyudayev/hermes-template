@@ -38,13 +38,9 @@ from hermes.template import TemplateStream
 class TemplateProducer(Producer):
     """A template for user extension of the Producer behavior, generating new data relayed to the Broker for consumers."""
 
-    @classmethod
-    def _log_source_tag(cls) -> str:
-        # TODO: replace with unique modality identifier.
-        return "template-producer"
-
     def __init__(
         self,
+        topic: str,
         host_ip: str,
         logging_spec: LoggingSpec,
         sampling_rate_hz: int = 1,
@@ -71,6 +67,7 @@ class TemplateProducer(Producer):
         stream_out_spec = {"sampling_rate_hz": sampling_rate_hz}
 
         super().__init__(
+            topic=topic,
             host_ip=host_ip,
             stream_out_spec=stream_out_spec,
             logging_spec=logging_spec,
@@ -108,12 +105,12 @@ class TemplateProducer(Producer):
             ##################################
             ##################################
 
-            tag: str = "%s.data" % self._log_source_tag()
+            tag: str = "%s.data" % self.topic
             # TODO: match data keys to device and substream names of the Stream object.
             self._publish(
                 tag,
                 process_time_s=process_time_s,
-                data={"<device-name>": {"toa": process_time_s}},
+                data={"<device-name>": {"toa_s": process_time_s}},
             )
         else:
             self._send_end_packet()

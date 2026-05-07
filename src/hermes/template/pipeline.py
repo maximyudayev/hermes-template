@@ -41,13 +41,9 @@ from hermes.base.nodes.pipeline import Pipeline
 class TemplatePipeline(Pipeline):
     """A template for user extension of the Pipeline behavior, consuming external data and generating new data relayed back to the Broker."""
 
-    @classmethod
-    def _log_source_tag(cls) -> str:
-        # TODO: replace with unique modality identifier.
-        return "template-pipeline"
-
     def __init__(
         self,
+        topic: str,
         host_ip: str,
         stream_out_spec: dict,
         stream_in_specs: list[dict],
@@ -75,6 +71,7 @@ class TemplatePipeline(Pipeline):
         """
 
         super().__init__(
+            topic=topic,
             host_ip=host_ip,
             stream_out_spec=stream_out_spec,
             stream_in_specs=stream_in_specs,
@@ -102,7 +99,7 @@ class TemplatePipeline(Pipeline):
             ###################################
             ###################################
 
-            tag: str = "%s.data" % self._log_source_tag()
+            tag: str = "%s.data" % self.topic
             # TODO: match data keys to device and substream names of the Stream object.
             self._publish(tag, time_s=process_time_s, data=process_time_s)
         else:

@@ -34,13 +34,9 @@ from hermes.base.nodes.consumer import Consumer
 class TemplateConsumer(Consumer):
     """A template for user extension of the Consumer Node behavior, consumeing external data relayed to it by the Broker."""
 
-    @classmethod
-    def _log_source_tag(cls) -> str:
-        # TODO: replace with unique modality identifier.
-        return "template-consumer"
-
     def __init__(
         self,
+        topic: str,
         host_ip: str,
         stream_in_specs: list[dict],
         logging_spec: LoggingSpec,
@@ -63,6 +59,7 @@ class TemplateConsumer(Consumer):
             log_history_filepath (str | None, optional): File path to the system log file. Defaults to `None`.
         """
         super().__init__(
+            topic=topic,
             host_ip=host_ip,
             stream_in_specs=stream_in_specs,
             logging_spec=logging_spec,
