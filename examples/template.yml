@@ -39,6 +39,7 @@ remote_kill_ip: null
 
 logging_spec:
   stream_period_s     : 30
+  is_quiet            : False
 
   stream_hdf5         : True
   stream_csv          : False
@@ -60,6 +61,7 @@ producer_specs:
     topic: "<topic_producer>"
     settings:
       sampling_rate_hz: 1
+      buf_len: 100
 
 
 consumer_specs:
@@ -67,12 +69,13 @@ consumer_specs:
     class: "TemplateConsumer"
     topic: "<topic_consumer>"
     settings:
-      stream_in_specs:
+      data_in_specs:
         - package: "template"
           class: "TemplateProducer"
           topic: "<topic_producer>"
           settings:
             sampling_rate_hz: 1
+            buf_len: 100
 
 
 pipeline_specs: []

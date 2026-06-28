@@ -26,13 +26,14 @@
 # ############
 
 import time
+from typing import Optional
 
 from hermes.utils.time_utils import get_time
 from hermes.utils.types import LoggingSpec
 from hermes.utils.zmq_utils import PORT_BACKEND, PORT_KILL, PORT_SYNC_HOST
 from hermes.base.nodes.producer import Producer
 
-from hermes.template import TemplateStream
+from hermes.template.data_container import TemplateDataContainer
 
 
 class TemplateProducer(Producer):
@@ -43,12 +44,13 @@ class TemplateProducer(Producer):
         topic: str,
         host_ip: str,
         logging_spec: LoggingSpec,
-        sampling_rate_hz: int = 1,
-        port_pub: str = PORT_BACKEND,
-        port_sync: str = PORT_SYNC_HOST,
-        port_killsig: str = PORT_KILL,
-        transmit_delay_sample_period_s: float = float("nan"),
-        **_
+        buf_len: Optional[int] = 100,
+        sampling_rate_hz: Optional[int] = 1,
+        port_pub: Optional[str] = PORT_BACKEND,
+        port_sync: Optional[str] = PORT_SYNC_HOST,
+        port_killsig: Optional[str] = PORT_KILL,
+        transmit_delay_sample_period_s: Optional[float] = float("nan"),
+        **_,
     ):
         # TODO: extend the function argument footprint to user-specific function.
         """Constructor of the TemplateProducer Node.
@@ -56,6 +58,7 @@ class TemplateProducer(Producer):
         Args:
             host_ip (str): IP address of the local master Broker.
             logging_spec (LoggingSpec): Mapping of Storage object parameters to user-defined configuration values.
+            buf_len (int, optional): Length of the circular buffer. Defaults to `100`.
             sampling_rate_hz (float, optional): Expected sample rate of the device. Defaults to `float('nan')`.
             port_pub (str, optional): Local port to publish to for local master Broker to relay. Defaults to `PORT_BACKEND`.
             port_sync (str, optional): Local port to listen to for local master Broker's startup coordination. Defaults to `PORT_SYNC_HOST`.
@@ -64,12 +67,15 @@ class TemplateProducer(Producer):
         """
 
         # TODO: update stream specification with input arguments.
-        stream_out_spec = {"sampling_rate_hz": sampling_rate_hz}
+        data_out_spec = {
+            "buf_len": buf_len,
+            "sampling_rate_hz": sampling_rate_hz
+        }
 
         super().__init__(
             topic=topic,
             host_ip=host_ip,
-            stream_out_spec=stream_out_spec,
+            data_out_spec=data_out_spec,
             logging_spec=logging_spec,
             sampling_rate_hz=sampling_rate_hz,
             port_pub=port_pub,
@@ -79,8 +85,8 @@ class TemplateProducer(Producer):
         )
 
     @classmethod
-    def create_stream(cls, stream_spec: dict) -> TemplateStream:
-        return TemplateStream(**stream_spec)
+    def create_data_container(cls, data_spec: dict) -> TemplateDataContainer:
+        return TemplateDataContainer(**data_spec)
 
     def _ping_device(self) -> None:
         # TODO: device-specific function wrapping round-trip communication for transmission delay estimation.
@@ -110,7 +116,7 @@ class TemplateProducer(Producer):
             self._publish(
                 tag,
                 process_time_s=process_time_s,
-                data={"<device-name>": {"toa_s": process_time_s}},
+                data={"<device_name>": {"toa_s": process_time_s}},
             )
         else:
             self._send_end_packet()

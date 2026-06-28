@@ -33,7 +33,7 @@ classifiers = [
 ]
 # TODO: add package dependencies
 dependencies = [
-
+  "pysio-hermes>=0.4.0"
 ]
 
 [project.urls]

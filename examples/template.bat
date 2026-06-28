@@ -10,4 +10,4 @@ if exist "%FILE%" (
 set /a TRIAL_ID=%TRIAL_ID% + 1
 echo %TRIAL_ID% > "%FILE%"
 
-call hermes-cli -o .\data --config_file .\examples\template.yml --experiment project=Template trial=0
+call hermes-cli -o .\data --config_file .\examples\template.yml --experiment project=Template trial=%TRIAL_ID%

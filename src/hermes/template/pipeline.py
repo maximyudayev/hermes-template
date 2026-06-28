@@ -34,7 +34,7 @@ from hermes.utils.zmq_utils import (
     PORT_SYNC_HOST,
 )
 
-from hermes.template import TemplateStream
+from hermes.template.data_container import TemplateDataContainer
 from hermes.base.nodes.pipeline import Pipeline
 
 
@@ -45,8 +45,8 @@ class TemplatePipeline(Pipeline):
         self,
         topic: str,
         host_ip: str,
-        stream_out_spec: dict,
-        stream_in_specs: list[dict],
+        data_out_spec: dict,
+        data_in_specs: list[dict],
         logging_spec: LoggingSpec,
         is_async_generate: bool = False,
         port_pub: str = PORT_BACKEND,
@@ -60,8 +60,8 @@ class TemplatePipeline(Pipeline):
 
         Args:
             host_ip (str): IP address of the local master Broker.
-            stream_out_spec (dict): Mapping of corresponding Stream object parameters to user-defined configuration values.
-            stream_in_specs (list[dict]): List of mappings of user-configured incoming modalities.
+            data_out_spec (dict): Mapping of corresponding `DataContainer` object parameters to user-defined configuration values.
+            data_in_specs (list[dict]): List of mappings of user-configured incoming modalities.
             logging_spec (LoggingSpec): Mapping of Storage object parameters to user-defined configuration values.
             is_async_generate (bool, optional): Whether the Pipeline produces data asynchronously, in parallel to what is fed into it. Defaults to `False`.
             port_pub (str, optional): Local port to publish to for local master Broker to relay. Defaults to `PORT_BACKEND`.
@@ -73,8 +73,8 @@ class TemplatePipeline(Pipeline):
         super().__init__(
             topic=topic,
             host_ip=host_ip,
-            stream_out_spec=stream_out_spec,
-            stream_in_specs=stream_in_specs,
+            data_out_spec=data_out_spec,
+            data_in_specs=data_in_specs,
             logging_spec=logging_spec,
             is_async_generate=is_async_generate,
             port_pub=port_pub,
@@ -84,8 +84,8 @@ class TemplatePipeline(Pipeline):
         )
 
     @classmethod
-    def create_stream(cls, stream_spec: dict) -> TemplateStream:
-        return TemplateStream(**stream_spec)
+    def create_data_container(cls, data_spec: dict) -> TemplateDataContainer:
+        return TemplateDataContainer(**data_spec)
 
     def _keep_samples(self) -> None:
         pass

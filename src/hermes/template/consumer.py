@@ -25,6 +25,8 @@
 #
 # ############
 
+from typing import Optional
+
 from hermes.utils.types import LoggingSpec
 from hermes.utils.zmq_utils import PORT_FRONTEND, PORT_KILL, PORT_SYNC_HOST
 
@@ -38,13 +40,13 @@ class TemplateConsumer(Consumer):
         self,
         topic: str,
         host_ip: str,
-        stream_in_specs: list[dict],
+        data_in_specs: list[dict],
         logging_spec: LoggingSpec,
-        port_sub: str = PORT_FRONTEND,
-        port_sync: str = PORT_SYNC_HOST,
-        port_killsig: str = PORT_KILL,
-        log_history_filepath: str | None = None,
-        **_
+        port_sub: Optional[str] = PORT_FRONTEND,
+        port_sync: Optional[str] = PORT_SYNC_HOST,
+        port_killsig: Optional[str] = PORT_KILL,
+        log_history_filepath: Optional[str] = None,
+        **_,
     ):
         # TODO: extend the function argument footprint to user-specific function.
         """Constructor of the TemplateConsumer Node.
@@ -61,7 +63,7 @@ class TemplateConsumer(Consumer):
         super().__init__(
             topic=topic,
             host_ip=host_ip,
-            stream_in_specs=stream_in_specs,
+            data_in_specs=data_in_specs,
             logging_spec=logging_spec,
             port_sub=port_sub,
             port_sync=port_sync,
